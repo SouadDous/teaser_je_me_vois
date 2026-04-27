@@ -134,10 +134,10 @@ html,body{
 .nav{display:flex;align-items:center;justify-content:center;gap:2.8rem;margin-top:4.5rem;}
 .na{
   background:none;border:none;cursor:pointer;
-  color:#ccc;font-size:17px;font-family:Georgia,serif;
+  color:#888;font-size:22px;font-family:Georgia,serif;
   padding:.8rem;transition:color .4s,transform .3s;line-height:1;
 }
-.na:hover,.na:active{color:#222;transform:scale(1.25);}
+.na:hover,.na:active{color:#111;transform:scale(1.25);}
 .nbar{width:44px;height:1.5px;background:#ccc;position:relative;overflow:hidden;}
 .nbar::after{
   content:'';position:absolute;top:0;left:-100%;
@@ -161,10 +161,10 @@ html,body{
 @keyframes spr{0%,100%{transform:scale(1);opacity:.35;}50%{transform:scale(1.07);opacity:.85;}}
 
 /* révélation livre */
-.rev-pre{font-size:9px;letter-spacing:.35em;color:#bbb;text-transform:uppercase;font-style:normal;opacity:0;animation:rise 2s ease .1s forwards;}
+.rev-pre{font-size:12px;letter-spacing:.3em;color:#666;text-transform:uppercase;font-style:normal;opacity:0;animation:rise 2s ease .1s forwards;}
 .rev-titre{font-size:clamp(38px,11vw,48px);font-style:italic;color:#1a1a1a;opacity:0;animation:rise 2.5s ease .5s forwards;}
-.rev-sous{font-size:11px;letter-spacing:.2em;color:#bbb;margin-top:.7rem;font-style:normal;opacity:0;animation:rise 2s ease 1.6s forwards;}
-.rev-auteur{font-size:11px;letter-spacing:.14em;color:#ccc;margin-top:.3rem;font-style:italic;opacity:0;animation:rise 2s ease 2.2s forwards;}
+.rev-sous{font-size:17px;letter-spacing:.05em;color:#333;margin-top:.7rem;font-style:normal;opacity:0;animation:rise 2s ease 1.6s forwards;}
+.rev-auteur{font-size:16px;letter-spacing:.08em;color:#555;margin-top:.3rem;font-style:italic;opacity:0;animation:rise 2s ease 2.2s forwards;}
 
 /* passage */
 .btn-pass{
@@ -293,16 +293,10 @@ html,body{
     </div>
   </div>
 
-  <!-- 7 — MIROIR — quelque chose cède -->
+  <!-- 7 — MIROIR — la fêlure -->
   <div class="screen" id="s7">
     <span class="lbl lbl-m">Miroir</span>
-    <div class="sph-w">
-      <div class="sp sp1"></div>
-      <div class="sp sp2"></div>
-      <div class="sp sp3"></div>
-      <div class="sp-core"></div>
-    </div>
-    <p class="t-fusion">La fêlure est là.<br>Elle laisse passer.</p>
+    <p class="t-miroir-lg">La fêlure est là.<br>Elle laisse passer.</p>
     <button class="btn-pass" onclick="goTo(8,'neutre')">franchir</button>
   </div>
 
