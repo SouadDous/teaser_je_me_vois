@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Je me vois — Éditions LÀ</title>
+<meta name="description" content="Un livre de récit et de miroir. Premier livre des Éditions LÀ.">
+<meta property="og:title" content="Je me vois — Éditions LÀ">
+<meta property="og:description" content="Il n'y a rien à comprendre. Il y a à voir.">
+<meta name="theme-color" content="#f2f0e8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+
+html,body{
+  height:100%;
+  min-height:100%;
+  background:#f2f0e8;
+  display:flex;align-items:flex-start;justify-content:center;
+  font-family:'EB Garamond',Georgia,serif;
+  margin:0;padding:0;
+}
+
+.phone{
+  width:100%;
+  max-width:480px;
+  min-height:100vh;
+  position:relative;
+  overflow:hidden;
+  background:#f2f0e8;
+  transition:background 1.4s ease;
+}
+.phone.mode-recit{background:#f0ede3;}
+.phone.mode-miroir{background:#eceae5;}
+.phone.mode-neutre{background:#f2f0e8;}
+
+/* halo */
+.halo{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 65% 55% at 50% 42%,rgba(255,253,244,0.75) 0%,transparent 72%);
+  animation:hb 9s ease-in-out infinite;
+  pointer-events:none;z-index:0;
+}
+@keyframes hb{0%,100%{opacity:.4;transform:scale(1);}50%{opacity:.95;transform:scale(1.12);}}
+
+/* grain */
+.grain{
+  position:absolute;inset:0;opacity:.045;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:250px;
+  animation:gm 10s steps(3) infinite;
+  pointer-events:none;z-index:1;
+}
+@keyframes gm{0%{background-position:0 0}33%{background-position:25px -15px}66%{background-position:-12px 22px}100%{background-position:0 0}}
+
+/* heartbeat */
+.hb-dot{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  width:5px;height:5px;border-radius:50%;
+  background:#1a1a1a;z-index:20;
+  animation:pb 4.5s ease-in-out infinite;
+}
+@keyframes pb{
+  0%,100%{opacity:.1;transform:translateX(-50%) scale(1);}
+  38%{opacity:.55;transform:translateX(-50%) scale(1.8);}
+  52%{opacity:.18;transform:translateX(-50%) scale(1.1);}
+  68%{opacity:.48;transform:translateX(-50%) scale(1.5);}
+}
+
+/* screens */
+.screen{
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-height:100vh;
+  padding:4rem 2.4rem 5rem;
+  text-align:center;
+  position:relative;
+  z-index:5;
+}
+.screen.active{
+  display:flex;
+  animation:rise 1.9s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+@keyframes rise{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+/* label RÉCIT / MIROIR */
+.lbl{
+  position:absolute;top:1.6rem;left:50%;transform:translateX(-50%);
+  font-size:11px;letter-spacing:.4em;text-transform:uppercase;
+  font-style:normal;z-index:10;white-space:nowrap;
+}
+.lbl-r{color:#b5a080;}
+.lbl-m{color:#9090a0;}
+.lbl-rm{color:#aaa;}
+
+/* typographies */
+.t-open{font-size:clamp(28px,8vw,38px);font-style:italic;line-height:1.38;color:#1a1a1a;max-width:300px;animation:rise 2s ease .1s both;}
+.t-open-sub{font-size:clamp(20px,6vw,26px);font-style:italic;color:#aaa;margin-top:.4rem;animation:rise 2s ease .7s both;}
+
+.t-recit{
+  font-size:clamp(18px,5vw,22px);font-style:italic;line-height:1.9;
+  color:#3a3530;max-width:260px;
+  text-align:left;align-self:flex-start;margin-left:2.2rem;
+  animation:rise 2s ease .2s both;
+}
+.t-recit-line{width:36px;height:1px;background:#c5b090;margin:1.4rem 0 0 2.2rem;align-self:flex-start;animation:rise 2s ease .8s both;}
+
+.t-miroir-xl{font-size:clamp(34px,10vw,46px);font-style:italic;line-height:1.25;color:#1a1a1a;max-width:300px;animation:rise 2.2s ease .15s both;}
+.t-miroir-lg{font-size:clamp(26px,8vw,34px);font-style:italic;line-height:1.35;color:#1a1a1a;max-width:280px;animation:rise 2.2s ease .15s both;}
+.t-fusion{font-size:clamp(19px,5.5vw,24px);font-style:italic;line-height:1.75;color:#444;max-width:250px;animation:rise 2s ease .25s both;}
+
+/* entrée */
+.btn-entrer{
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  background:none;border:none;cursor:pointer;margin-top:5.5rem;
+}
+.ec{
+  width:54px;height:54px;border-radius:50%;
+  border:.5px dashed #aaa;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .5s,border-color .4s;
+  animation:ecb 6s ease-in-out infinite;
+}
+@keyframes ecb{0%,100%{border-color:#ccc;}50%{border-color:#777;}}
+.btn-entrer:hover .ec,.btn-entrer:active .ec{transform:scale(1.1);border-color:#333!important;}
+.el{font-size:11px;letter-spacing:.24em;color:#bbb;font-style:italic;transition:color .4s;}
+.btn-entrer:hover .el,.btn-entrer:active .el{color:#555;}
+
+/* nav flèches */
+.nav{display:flex;align-items:center;justify-content:center;gap:2.8rem;margin-top:4.5rem;}
+.na{
+  background:none;border:none;cursor:pointer;
+  color:#ccc;font-size:17px;font-family:Georgia,serif;
+  padding:.8rem;transition:color .4s,transform .3s;line-height:1;
+}
+.na:hover,.na:active{color:#222;transform:scale(1.25);}
+.nbar{width:44px;height:1.5px;background:#ccc;position:relative;overflow:hidden;}
+.nbar::after{
+  content:'';position:absolute;top:0;left:-100%;
+  width:35%;height:100%;background:#777;
+  animation:nf 3.5s ease-in-out infinite;
+}
+@keyframes nf{0%{left:-35%;}100%{left:135%;}}
+
+/* fissure écran 5 */
+.fissure{width:220px;height:8px;position:relative;margin:2rem auto 1.5rem;}
+.fl{position:absolute;top:4px;left:0;height:.5px;background:linear-gradient(90deg,transparent,#aaa,transparent);width:0;}
+.fdot{position:absolute;top:1px;left:50%;transform:translateX(-50%);width:7px;height:7px;border-radius:50%;border:.5px solid #999;opacity:0;}
+
+/* sphères écran 8 */
+.sph-w{width:130px;height:130px;position:relative;display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;}
+.sp{position:absolute;border-radius:50%;border:.5px solid rgba(80,75,65,.28);}
+.sp1{width:130px;height:130px;animation:spr 10s ease-in-out infinite;}
+.sp2{width:80px;height:80px;animation:spr 7s ease-in-out infinite reverse;}
+.sp3{width:38px;height:38px;animation:spr 5s ease-in-out infinite;}
+.sp-core{width:5px;height:5px;border-radius:50%;background:#1a1a1a;animation:pb 4.5s ease-in-out infinite;}
+@keyframes spr{0%,100%{transform:scale(1);opacity:.35;}50%{transform:scale(1.07);opacity:.85;}}
+
+/* révélation livre */
+.rev-pre{font-size:9px;letter-spacing:.35em;color:#bbb;text-transform:uppercase;font-style:normal;opacity:0;animation:rise 2s ease .1s forwards;}
+.rev-titre{font-size:clamp(38px,11vw,48px);font-style:italic;color:#1a1a1a;opacity:0;animation:rise 2.5s ease .5s forwards;}
+.rev-sous{font-size:11px;letter-spacing:.2em;color:#bbb;margin-top:.7rem;font-style:normal;opacity:0;animation:rise 2s ease 1.6s forwards;}
+.rev-auteur{font-size:11px;letter-spacing:.14em;color:#ccc;margin-top:.3rem;font-style:italic;opacity:0;animation:rise 2s ease 2.2s forwards;}
+
+/* passage */
+.btn-pass{
+  font-family:'EB Garamond',Georgia,serif;
+  font-size:16px;letter-spacing:.28em;color:#888;
+  background:none;border:none;cursor:pointer;
+  font-style:italic;margin-top:4rem;
+  transition:color .5s,letter-spacing .4s;padding:.5rem 0;
+}
+.btn-pass:hover,.btn-pass:active{color:#333;letter-spacing:.36em;}
+
+/* sortie */
+.p-srt{font-size:clamp(22px,7vw,28px);font-style:italic;color:#1a1a1a;opacity:0;animation:rise 2s ease .4s forwards;}
+.p-srt-sub{font-size:17px;letter-spacing:.06em;color:#666;margin-top:.6rem;font-style:italic;opacity:0;animation:rise 2s ease 1.2s forwards;}
+.btn-livre{
+  font-family:'EB Garamond',Georgia,serif;
+  font-size:15px;letter-spacing:.18em;color:#444;
+  background:none;border:1px solid #aaa;cursor:pointer;
+  font-style:italic;margin-top:3rem;padding:1rem 2.2rem;
+  border-radius:1px;
+  transition:color .4s,border-color .4s,background .4s;
+  opacity:0;animation:rise 2s ease 2.1s forwards;
+}
+.btn-livre:hover,.btn-livre:active{color:#f2f0e8;background:#1a1a1a;border-color:#1a1a1a;}
+
+.logo-fin{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:2.5rem;opacity:0;animation:rise 2s ease 3s forwards;}
+.lc{width:32px;height:32px;border-radius:50%;border:.5px dashed #aaa;display:flex;align-items:center;justify-content:center;}
+.lc::after{content:'';width:5px;height:5px;border-radius:50%;background:#aaa;}
+.le{font-size:13px;letter-spacing:.16em;color:#999;font-style:italic;}
+
+/* geste JE ME VOIS écran 7 */
+.geste-pre{font-size:clamp(14px,4vw,17px);font-style:italic;color:#5a5040;line-height:1.8;animation:rise 2s ease .2s both;}
+.geste-mot{font-size:clamp(28px,9vw,38px);font-style:italic;color:#1a1a1a;margin-top:1.2rem;letter-spacing:.04em;opacity:0;animation:rise 2.2s ease 1s forwards;}
+</style>
+</head>
+<body>
+
+<div class="phone mode-neutre" id="app">
+  <div class="halo"></div>
+  <div class="grain"></div>
+  <div class="hb-dot"></div>
+
+  <!-- 0 — ouverture -->
+  <div class="screen active" id="s0">
+    <p class="t-open">Il n'y a rien<br>à comprendre.</p>
+    <p class="t-open-sub">Il y a à voir.</p>
+    <button class="btn-entrer" onclick="goTo(1,'recit')">
+      <div class="ec">
+        <svg width="9" height="9" viewBox="0 0 9 9"><circle cx="4.5" cy="4.5" r="2" fill="#888"/></svg>
+      </div>
+      <span class="el">entrer</span>
+    </button>
+  </div>
+
+  <!-- 1 — RÉCIT — Liz -->
+  <div class="screen" id="s1">
+    <span class="lbl lbl-r">Récit</span>
+    <p class="t-recit">Liz habitait une existence<br>aux parois lisses.</p>
+    <div class="t-recit-line"></div>
+    <div class="nav" style="align-self:center;">
+      <button class="na" onclick="goTo(0,'neutre')">←</button>
+      <div class="nbar"></div>
+      <button class="na" onclick="goTo(2,'miroir')">→</button>
+    </div>
+  </div>
+
+  <!-- 2 — MIROIR — premier seuil -->
+  <div class="screen" id="s2">
+    <span class="lbl lbl-m">Miroir</span>
+    <p class="t-miroir-xl">Je ne suis<br>pas d'un<br>seul bloc.</p>
+    <div class="nav">
+      <button class="na" onclick="goTo(1,'recit')">←</button>
+      <div class="nbar"></div>
+      <button class="na" onclick="goTo(3,'recit')">→</button>
+    </div>
+  </div>
+
+  <!-- 3 — RÉCIT — voix -->
+  <div class="screen" id="s3">
+    <span class="lbl lbl-r">Récit</span>
+    <p class="t-recit">Un soir,<br>une voix<br>franchit la barrière.</p>
+    <div class="t-recit-line"></div>
+    <div class="nav" style="align-self:center;">
+      <button class="na" onclick="goTo(2,'miroir')">←</button>
+      <div class="nbar"></div>
+      <button class="na" onclick="goTo(4,'miroir')">→</button>
+    </div>
+  </div>
+
+  <!-- 4 — RÉCIT — Alon -->
+  <div class="screen" id="s4">
+    <span class="lbl lbl-r">Récit</span>
+    <p class="t-recit">À l'autre bout du monde,<br>Alon regarde.</p>
+    <div class="t-recit-line"></div>
+    <div class="nav" style="align-self:center;">
+      <button class="na" onclick="goTo(3,'recit')">←</button>
+      <div class="nbar"></div>
+      <button class="na" onclick="goTo(5,'miroir')">→</button>
+    </div>
+  </div>
+
+  <!-- 5 — MIROIR — fissure -->
+  <div class="screen" id="s5">
+    <span class="lbl lbl-m">Miroir</span>
+    <p class="t-miroir-lg">Une fissure<br>suffit.</p>
+    <div class="fissure" id="fiss5">
+      <div class="fl" id="fl5"></div>
+      <div class="fdot" id="fd5"></div>
+    </div>
+    <div class="nav">
+      <button class="na" onclick="goTo(4,'recit')">←</button>
+      <div class="nbar"></div>
+      <button class="na" onclick="goTo(6,'recit')">→</button>
+    </div>
+  </div>
+
+  <!-- 6 — RÉCIT — geste JE ME VOIS -->
+  <div class="screen" id="s6">
+    <span class="lbl lbl-r">Récit</span>
+    <p class="geste-pre">Sur un lambeau de soie,<br>elle écrit :</p>
+    <p class="geste-mot">JE ME VOIS</p>
+    <div class="nav" style="margin-top:3.5rem;">
+      <button class="na" onclick="goTo(5,'miroir')">←</button>
+      <div class="nbar"></div>
+      <button class="na" onclick="goTo(7,'miroir')">→</button>
+    </div>
+  </div>
+
+  <!-- 7 — MIROIR — quelque chose cède -->
+  <div class="screen" id="s7">
+    <span class="lbl lbl-m">Miroir</span>
+    <div class="sph-w">
+      <div class="sp sp1"></div>
+      <div class="sp sp2"></div>
+      <div class="sp sp3"></div>
+      <div class="sp-core"></div>
+    </div>
+    <p class="t-fusion">La fêlure est là.<br>Elle laisse passer.</p>
+    <button class="btn-pass" onclick="goTo(8,'neutre')">franchir</button>
+  </div>
+
+  <!-- 8 — RÉCIT · MIROIR — fusion -->
+  <div class="screen" id="s8">
+    <span class="lbl lbl-rm">Récit · Miroir</span>
+    <p class="t-fusion" style="font-size:clamp(19px,6vw,24px);color:#2a2a2a;">Une traversée<br>du regard<br>commence.</p>
+    <div class="nav">
+      <button class="na" onclick="goTo(7,'miroir')">←</button>
+      <div class="nbar"></div>
+      <button class="na" onclick="goTo(9,'neutre')">→</button>
+    </div>
+  </div>
+
+  <!-- 9 — révélation du livre -->
+  <div class="screen" id="s9">
+    <p class="rev-pre">Premier livre des Éditions LÀ</p>
+    <img src="https://raw.githubusercontent.com/SouadDous/teaser_je_me_vois/main/Livre_Je_me_vois_couverture.png"
+      alt="Je me vois — couverture"
+      style="width:200px;height:200px;object-fit:cover;margin:.8rem 0 .4rem;opacity:0;animation:rise 2.5s ease .3s forwards;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+    <p class="rev-sous" style="margin-top:.6rem;">Un livre de récit et de miroir</p>
+    <p class="rev-auteur">par Souad Dous</p>
+    <div class="nav" style="margin-top:3rem;">
+      <button class="na" onclick="goTo(8,'neutre')">←</button>
+      <div class="nbar"></div>
+      <button class="na" onclick="goTo(10,'neutre')">→</button>
+    </div>
+  </div>
+
+  <!-- 10 — sortie -->
+  <div class="screen" id="s10">
+    <p class="p-srt">Poursuivre</p>
+    <p class="p-srt-sub">avec le livre <em>Je me vois</em></p>
+    <button class="btn-livre" onclick="window.open('https://editionsla.com','_blank')">entrer dans le livre</button>
+    <div class="logo-fin">
+      <div class="lc"></div>
+      <span class="le">Éditions LÀ</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+var app = document.getElementById('app');
+
+function goTo(n, mode) {
+  document.querySelectorAll('.screen').forEach(function(s) {
+    s.classList.remove('active');
+  });
+  app.className = 'phone mode-' + (mode || 'neutre');
+  var t = document.getElementById('s' + n);
+  if (!t) return;
+  t.style.animation = 'none';
+  void t.offsetHeight;
+  t.style.animation = '';
+  t.classList.add('active');
+  if (n === 5) { resetFissure(); }
+}
+
+function resetFissure() {
+  var fl = document.getElementById('fl5');
+  var fd = document.getElementById('fd5');
+  if (fl) {
+    fl.style.transition = 'none';
+    fl.style.width = '0';
+    void fl.offsetHeight;
+    fl.style.transition = 'width 2.2s ease 1.2s';
+    fl.style.width = '100%';
+  }
+  if (fd) {
+    fd.style.animation = 'none';
+    void fd.offsetHeight;
+    fd.style.opacity = '0';
+    setTimeout(function() { fd.style.transition = 'opacity .5s'; fd.style.opacity = '1'; }, 2800);
+  }
+}
+
+/* swipe tactile */
+var startX = 0, startY = 0, current = 0;
+var seq = [
+  [0,'neutre'],[1,'recit'],[2,'miroir'],[3,'recit'],[4,'recit'],
+  [5,'miroir'],[6,'recit'],[7,'miroir'],[8,'neutre'],[9,'neutre'],[10,'neutre']
+];
+
+app.addEventListener('touchstart', function(e) {
+  startX = e.touches[0].clientX;
+  startY = e.touches[0].clientY;
+}, {passive:true});
+
+app.addEventListener('touchend', function(e) {
+  var dx = e.changedTouches[0].clientX - startX;
+  var dy = e.changedTouches[0].clientY - startY;
+  if (Math.abs(dx) < 30 && Math.abs(dy) < 30) {
+    /* tap — avance */
+    if (current < seq.length - 1) {
+      current++;
+      goTo(seq[current][0], seq[current][1]);
+    }
+  } else if (Math.abs(dx) > Math.abs(dy)) {
+    if (dx < -40 && current < seq.length - 1) {
+      current++;
+      goTo(seq[current][0], seq[current][1]);
+    } else if (dx > 40 && current > 0) {
+      current--;
+      goTo(seq[current][0], seq[current][1]);
+    }
+  }
+}, {passive:true});
+</script>
+
+</body>
+</html>
